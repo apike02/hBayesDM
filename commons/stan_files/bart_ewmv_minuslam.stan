@@ -93,7 +93,7 @@ model {
       // Update n_succ and n_pump after each trial ends
       n_succ += pumps[j, k] - explosion[j, k];
       n_pump += pumps[j, k];
-      
+
       if (n_pump>0){
         p_burst = phi[j] + (1 - exp(-n_pump * eta[j])) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
       }
@@ -102,7 +102,6 @@ model {
 }
 
 generated quantities {
-  vector<lower=0,upper=1>[N] phi;
 
   // Actual group-level mean
   real<lower=0> mu_phi = Phi_approx(mu_p[1]);
