@@ -128,7 +128,6 @@ generated quantities {
       int n_succ = 0;  // Number of successful pumps
       int n_pump = 0;  // Number of total pumps
       real p_burst;
-      phi[j]=0.5;
       p_burst = phi[j];
 
       log_lik[j] = 0;
