@@ -14,6 +14,11 @@ from ._banditNarm_kalman_filter import banditNarm_kalman_filter
 from ._banditNarm_lapse import banditNarm_lapse
 from ._banditNarm_lapse_decay import banditNarm_lapse_decay
 from ._banditNarm_singleA_lapse import banditNarm_singleA_lapse
+from ._bart_ewmv_minuseta import bart_ewmv_minuseta
+from ._bart_ewmv_minuslam import bart_ewmv_minuslam
+from ._bart_ewmv_minusphi import bart_ewmv_minusphi
+from ._bart_ewmv_minusrho import bart_ewmv_minusrho
+from ._bart_ewmv_minustau import bart_ewmv_minustau
 from ._bart_ewmv import bart_ewmv
 from ._bart_par4 import bart_par4
 from ._cgt_cm import cgt_cm
@@ -44,8 +49,8 @@ from ._prl_fictitious_rp_woa import prl_fictitious_rp_woa
 from ._prl_fictitious_woa import prl_fictitious_woa
 from ._prl_rp import prl_rp
 from ._prl_rp_multipleB import prl_rp_multipleB
-from ._pst_Q import pst_Q
 from ._pst_gainloss_Q import pst_gainloss_Q
+from ._pst_Q import pst_Q
 from ._ra_noLA import ra_noLA
 from ._ra_noRA import ra_noRA
 from ._ra_prospect import ra_prospect
@@ -75,6 +80,11 @@ __all__ = [
     'banditNarm_lapse',
     'banditNarm_lapse_decay',
     'banditNarm_singleA_lapse',
+    'bart_ewmv_minuseta',
+    'bart_ewmv_minuslam',
+    'bart_ewmv_minusphi',
+    'bart_ewmv_minusrho',
+    'bart_ewmv_minustau',
     'bart_ewmv',
     'bart_par4',
     'cgt_cm',
@@ -105,8 +115,8 @@ __all__ = [
     'prl_fictitious_woa',
     'prl_rp',
     'prl_rp_multipleB',
-    'pst_Q',
     'pst_gainloss_Q',
+    'pst_Q',
     'ra_noLA',
     'ra_noRA',
     'ra_prospect',
