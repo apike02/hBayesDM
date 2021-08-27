@@ -21,6 +21,7 @@ from ._bart_ewmv_minusrho import bart_ewmv_minusrho
 from ._bart_ewmv_minustau import bart_ewmv_minustau
 from ._bart_ewmv import bart_ewmv
 from ._bart_par4 import bart_par4
+from ._bart_prospect_phi import bart_prospect_phi
 from ._cgt_cm import cgt_cm
 from ._choiceRT_ddm import choiceRT_ddm
 from ._choiceRT_ddm_single import choiceRT_ddm_single
@@ -87,6 +88,7 @@ __all__ = [
     'bart_ewmv_minustau',
     'bart_ewmv',
     'bart_par4',
+    'bart_prospect_phi',
     'cgt_cm',
     'choiceRT_ddm',
     'choiceRT_ddm_single',
