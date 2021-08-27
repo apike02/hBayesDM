@@ -47,7 +47,7 @@ transformed parameters {
 
   phi = Phi_approx(mu_pr[1] + sigma[1] * phi_pr);
   eta = Phi_approx(mu_pr[2] + sigma[2] * eta_pr);
-  rho = 0.5 - Phi_approx(mu_pr[3] + sigma[3] * rho_pr);
+  rho = 0.5-Phi_approx(mu_pr[3] + sigma[3] * rho_pr);
   tau = exp(mu_pr[4] + sigma[4] * tau_pr);
   lambda = exp(mu_pr[5] + sigma[5] * lambda_pr);
 }
@@ -78,6 +78,7 @@ model {
       real delta_u;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
+        u_gain = l; 
         u_loss = (l - 1);
 
         u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +
@@ -138,7 +139,7 @@ generated quantities {
         real delta_u;
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          // u_gain always equals r ^ rho.
+          u_gain = l; 
           u_loss = (l - 1);
 
           u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +

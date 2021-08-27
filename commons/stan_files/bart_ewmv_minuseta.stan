@@ -78,6 +78,7 @@ model {
       real delta_u;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
+        u_gain = l; 
         u_loss = (l - 1);
 
         u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +
@@ -93,10 +94,7 @@ model {
       // Update n_succ and n_pump after each trial ends
       n_succ += pumps[j, k] - explosion[j, k];
       n_pump += pumps[j, k];
-      
-      if (n_pump>0){
-        p_burst = phi[j] + (1 - exp(-n_pump)) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
-      }
+
     }
   }
 }
@@ -104,10 +102,10 @@ model {
 generated quantities {
   // Actual group-level mean
   real<lower=0> mu_phi = Phi_approx(mu_p[1]);
-  real<lower=0> mu_eta = Phi_approx(mu_p[2]);
-  real<lower=-0.5,upper=0.5> mu_rho = 0.5 - Phi_approx(mu_p[3]);
-  real<lower=0> mu_tau = exp(mu_p[4]);
-  real<lower=0> mu_lambda = exp(mu_p[5]);
+  //real<lower=0> mu_eta = Phi_approx(mu_p[2]);
+  real<lower=-0.5,upper=0.5> mu_rho = 0.5 - Phi_approx(mu_p[2]);
+  real<lower=0> mu_tau = exp(mu_p[3]);
+  real<lower=0> mu_lambda = exp(mu_p[4]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -139,6 +137,7 @@ generated quantities {
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
           // u_gain always equals r ^ rho.
+          u_gain = l; 
           u_loss = (l - 1);
 
           u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +
@@ -155,9 +154,6 @@ generated quantities {
         n_succ += pumps[j, k] - explosion[j, k];
         n_pump += pumps[j, k];
 
-        if (n_pump>0){
-          p_burst = phi[j] + (1 - exp(-n_pump)) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
-        }
       }
     }
   }
