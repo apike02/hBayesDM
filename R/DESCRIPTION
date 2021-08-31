@@ -75,6 +75,8 @@ Collate:
     'bart_ewmv_minusrho.R'
     'bart_ewmv_minustau.R'
     'bart_par4.R'
+    'bart_prospect_belief.R'
+    'bart_prospect_belief_learning.R'
     'bart_prospect_phi.R'
     'cgt_cm.R'
     'choiceRT_ddm.R'
