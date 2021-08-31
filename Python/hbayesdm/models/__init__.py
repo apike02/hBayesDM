@@ -23,6 +23,7 @@ from ._bart_ewmv import bart_ewmv
 from ._bart_par4 import bart_par4
 from ._bart_prospect_belief import bart_prospect_belief
 from ._bart_prospect_belief_learning import bart_prospect_belief_learning
+from ._bart_prospect_belief_learning_noise import bart_prospect_belief_learning_noise
 from ._bart_prospect_belief import bart_prospect_belief
 from ._cgt_cm import cgt_cm
 from ._choiceRT_ddm import choiceRT_ddm
@@ -92,6 +93,7 @@ __all__ = [
     'bart_par4',
     'bart_prospect_belief',
     'bart_prospect_belief_learning',
+    'bart_prospect_belief_learning_noise',
     'bart_prospect_belief',
     'cgt_cm',
     'choiceRT_ddm',
