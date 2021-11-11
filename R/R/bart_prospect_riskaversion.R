@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION bart_prospect_learning_riskaversion
+#' @templateVar MODEL_FUNCTION bart_prospect_riskaversion
 #' @templateVar CONTRIBUTOR \href{https://apike02.github.io/}{Alex Pike} <\email{alex.pike@@ucl.ac.uk}>
 #' @templateVar TASK_NAME Balloon Analogue Risk Task
 #' @templateVar TASK_CODE bart
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Simple model with a fixed prior belief that is updated IF there is an explosion or the pumps are greater than the prior
-#' @templateVar MODEL_CODE prospect_learning_riskaversion
+#' @templateVar MODEL_NAME Simple model with summative risk aversion only
+#' @templateVar MODEL_CODE prospect_riskaversion
 #' @templateVar MODEL_CITE 
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "pumps", "explosion"
-#' @templateVar PARAMETERS \code{learning_rate} (rate at which belief of burst is updated), \code{risk_aversion} (additive value that makes you less likely to pump)
+#' @templateVar PARAMETERS \code{risk_aversion} (additive value that makes you less likely to pump)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred", "ev (expected value on each pump)"
 #' @templateVar LENGTH_DATA_COLUMNS 3
@@ -25,13 +25,12 @@
 
 
 
-bart_prospect_learning_riskaversion <- hBayesDM_model(
+bart_prospect_riskaversion <- hBayesDM_model(
   task_name       = "bart",
-  model_name      = "prospect_learning_riskaversion",
+  model_name      = "prospect_riskaversion",
   model_type      = "",
   data_columns    = c("subjID", "pumps", "explosion"),
   parameters      = list(
-    "learning_rate" = c(0, 0.5, 1),
     "risk_aversion" = c(-Inf, 0, Inf)
   ),
   regressors      = NULL,

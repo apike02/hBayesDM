@@ -3,8 +3,8 @@ task_name:
   desc: Balloon Analogue Risk Task
   cite:
 model_name:
-  code: prospect_learning_riskaversion
-  desc: Simple model with a fixed prior belief that is updated IF there is an explosion or the pumps are greater than the prior 
+  code: prospect_learning
+  desc: Simple model with a learning rate - everyone starts with same belief
 model_type:
   code:
   desc: Hierarchical
@@ -21,9 +21,6 @@ parameters:
   learning_rate:
     desc: rate at which belief of burst is updated
     info: [0, 0.5, 1]
-  risk_aversion:
-    desc: additive value that makes you less likely to pump
-    info: [-Inf, 0, Inf]
 regressors:
 postpreds:
 - y_pred

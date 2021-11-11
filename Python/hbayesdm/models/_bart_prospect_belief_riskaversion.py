@@ -7,14 +7,14 @@ import pandas as pd
 from hbayesdm.base import TaskModel
 from hbayesdm.preprocess_funcs import bart_preprocess_func
 
-__all__ = ['bart_prospect_learning_riskaversion']
+__all__ = ['bart_prospect_belief_riskaversion']
 
 
-class BartProspectLearningRiskaversion(TaskModel):
+class BartProspectBeliefRiskaversion(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='bart',
-            model_name='prospect_learning_riskaversion',
+            model_name='prospect_belief_riskaversion',
             model_type='',
             data_columns=(
                 'subjID',
@@ -22,7 +22,7 @@ class BartProspectLearningRiskaversion(TaskModel):
                 'explosion',
             ),
             parameters=OrderedDict([
-                ('learning_rate', (0, 0.5, 1)),
+                ('pumps_prior_belief', (0, 10, Inf)),
                 ('risk_aversion', (-Inf, 0, Inf)),
             ]),
             regressors=OrderedDict([
@@ -30,7 +30,7 @@ class BartProspectLearningRiskaversion(TaskModel):
             ]),
             postpreds=['y_pred', 'ev (expected value on each pump)'],
             parameters_desc=OrderedDict([
-                ('learning_rate', 'rate at which belief of burst is updated'),
+                ('pumps_prior_belief', 'prior belief of burst'),
                 ('risk_aversion', 'additive value that makes you less likely to pump'),
             ]),
             additional_args_desc=OrderedDict([
@@ -42,7 +42,7 @@ class BartProspectLearningRiskaversion(TaskModel):
     _preprocess_func = bart_preprocess_func
 
 
-def bart_prospect_learning_riskaversion(
+def bart_prospect_belief_riskaversion(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -58,11 +58,11 @@ def bart_prospect_learning_riskaversion(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Balloon Analogue Risk Task - Simple model with a fixed prior belief that is updated IF there is an explosion or the pumps are greater than the prior
+    """Balloon Analogue Risk Task - Simple model with a prior belief and summative risk aversion
 
     Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task 
-    using Simple model with a fixed prior belief that is updated IF there is an explosion or the pumps are greater than the prior  with the following parameters:
-    "learning_rate" (rate at which belief of burst is updated), "risk_aversion" (additive value that makes you less likely to pump).
+    using Simple model with a prior belief and summative risk aversion  with the following parameters:
+    "pumps_prior_belief" (prior belief of burst), "risk_aversion" (additive value that makes you less likely to pump).
 
     
 
@@ -183,7 +183,7 @@ def bart_prospect_learning_riskaversion(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('bart_prospect_learning_riskaversion').
+        - ``model``: String value that is the name of the model ('bart_prospect_belief_riskaversion').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -198,10 +198,10 @@ def bart_prospect_learning_riskaversion(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import bart_prospect_learning_riskaversion
+        from hbayesdm.models import bart_prospect_belief_riskaversion
 
         # Run the model and store results in "output"
-        output = bart_prospect_learning_riskaversion(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = bart_prospect_belief_riskaversion(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -215,7 +215,7 @@ def bart_prospect_learning_riskaversion(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return BartProspectLearningRiskaversion(
+    return BartProspectBeliefRiskaversion(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

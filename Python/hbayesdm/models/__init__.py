@@ -26,7 +26,10 @@ from ._bart_prospect_belief_learning import bart_prospect_belief_learning
 from ._bart_prospect_belief_learning_noise import bart_prospect_belief_learning_noise
 from ._bart_prospect_belief_learning_noise_riskaversion import bart_prospect_belief_learning_noise_riskaversion
 from ._bart_prospect_belief_learning_riskaversion import bart_prospect_belief_learning_riskaversion
+from ._bart_prospect_belief_riskaversion import bart_prospect_belief_riskaversion
+from ._bart_prospect_learning import bart_prospect_learning
 from ._bart_prospect_learning_riskaversion import bart_prospect_learning_riskaversion
+from ._bart_prospect_riskaversion import bart_prospect_riskaversion
 from ._cgt_cm import cgt_cm
 from ._choiceRT_ddm import choiceRT_ddm
 from ._choiceRT_ddm_single import choiceRT_ddm_single
@@ -98,7 +101,10 @@ __all__ = [
     'bart_prospect_belief_learning_noise',
     'bart_prospect_belief_learning_noise_riskaversion',
     'bart_prospect_belief_learning_riskaversion',
+    'bart_prospect_belief_riskaversion',
+    'bart_prospect_learning',
     'bart_prospect_learning_riskaversion',
+    'bart_prospect_riskaversion',
     'cgt_cm',
     'choiceRT_ddm',
     'choiceRT_ddm_single',
