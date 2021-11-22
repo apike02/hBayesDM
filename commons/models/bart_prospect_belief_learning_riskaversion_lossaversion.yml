@@ -3,8 +3,8 @@ task_name:
   desc: Balloon Analogue Risk Task
   cite:
 model_name:
-  code: prospect_belief_lossaversion
-  desc: Simple model with a prior belief and loss aversion multiplied by loss value
+  code: prospect_belief_learning_riskaversion_lossaversion
+  desc: Simple model with prior belief that is updated IF there is an explosion or the pumps are greater than the prior and risk aversion and multiplicative loss aversion
 model_type:
   code:
   desc: Hierarchical
@@ -21,8 +21,14 @@ parameters:
   pumps_prior_belief:
     desc: prior belief of burst
     info: [0, 10, Inf]
+  learning_rate:
+    desc: rate at which belief of burst is updated
+    info: [0, 0.5, 1]
+  risk_aversion:
+    desc: subtracted from overall expected value
+    info: [-Inf, 0, Inf]
   loss_aversion:
-    desc: multiplied with loss outcome
+    desc: multiplied by loss value
     info: [-Inf, 0, Inf]
 regressors:
 postpreds:

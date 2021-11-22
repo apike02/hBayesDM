@@ -3,8 +3,8 @@ task_name:
   desc: Balloon Analogue Risk Task
   cite:
 model_name:
-  code: prospect_belief_lossaversion
-  desc: Simple model with a prior belief and loss aversion multiplied by loss value
+  code: prospect_noise
+  desc: Simple model with only decision noise
 model_type:
   code:
   desc: Hierarchical
@@ -18,12 +18,9 @@ data_columns:
   pumps: The number of pumps.
   explosion: '0: intact, 1: burst'
 parameters:
-  pumps_prior_belief:
-    desc: prior belief of burst
-    info: [0, 10, Inf]
-  loss_aversion:
-    desc: multiplied with loss outcome
-    info: [-Inf, 0, Inf]
+  inverse_temperature:
+    desc: governs decision noise, ranging from 0 (stochastic) to infinite (deterministic)
+    info: [0, 3, Inf]
 regressors:
 postpreds:
 - y_pred
