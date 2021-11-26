@@ -1,3 +1,8 @@
+/* BART model: 'Belief + risk aversion'
+*  author: Alex Pike
+*  email: alex.pike02@gmail.com
+*/
+
 data {
   int<lower=1> N;             // Number of subjects
   int<lower=1> T;             // Maximum number of trials
@@ -26,18 +31,22 @@ transformed data {
 
 parameters {
   // Group-level parameters
-  real mu_pr;
-  real<lower=0> sigma;
+  vector[2] mu_pr;
+  vector<lower=0>[2] sigma;
 
   // Normally distributed error for Matt trick
   vector[N] pumps_prior_belief_pr;
+  vector[N] risk_aversion_pr;
 }
 
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] pumps_prior_belief;
+  vector[N] risk_aversion;
+
   for (i in 1:N){
-      pumps_prior_belief[i]=(mu_pr + sigma* pumps_prior_belief_pr[i])^2;
+      pumps_prior_belief[i]=(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i])^2;
+      risk_aversion[i]=(mu_pr[2] + sigma[2] * risk_aversion_pr[i]);
   }
 }
 
@@ -47,10 +56,11 @@ model {
   sigma ~ normal(0, 0.2); // cauchy(0, 5);
 
   pumps_prior_belief_pr ~ normal(0, 1);
-
+  risk_aversion_pr ~ normal(0, 1);
 
   // Likelihood
   for (j in 1:N) {
+    real pump_belief = pumps_prior_belief[j];
 
     for (k in 1:Tsubj[j]) {
       real u_gain;
@@ -59,15 +69,15 @@ model {
       real ev;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-        if (l>pumps_prior_belief[j]){
+        if (l>pump_belief){
           p_burst=1;
         } else {
-          p_burst = 1/(pumps_prior_belief[j]+1-l);
+          p_burst = 1/(pump_belief+1-l);
         }
         u_gain = l;
-        u_loss = l-1;
+        u_loss = (l-1);
 
-        ev = (1 - p_burst) * u_gain - p_burst * u_loss;
+        ev = ((1 - p_burst) * u_gain - p_burst * u_loss) - (p_burst) * risk_aversion[j];
         //basic expected value computation
 
         // Calculate likelihood with bernoulli distribution
@@ -79,7 +89,8 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_pumps_prior_belief = Phi_approx(mu_pr);
+  real<lower=0> mu_pumps_prior_belief = (mu_pr[1])^2;
+  real mu_risk_aversion = (mu_pr[2]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -96,6 +107,7 @@ generated quantities {
 
   { // Local section to save time and space
     for (j in 1:N) {
+      real pump_belief = pumps_prior_belief[j];
 
       log_lik[j] = 0;
 
@@ -105,15 +117,15 @@ generated quantities {
         real p_burst;
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          if (l>pumps_prior_belief[j]){
+          if (l>pump_belief){
             p_burst=1;
           } else {
-            p_burst = 1/(pumps_prior_belief[j]+1-l);
+            p_burst = 1/(pump_belief+1-l);
           }
           u_gain = l;
           u_loss = (l - 1);
 
-          ev = (1 - p_burst) * u_gain - p_burst * u_loss;
+          ev = ((1 - p_burst) * u_gain - p_burst * u_loss) - (p_burst) * risk_aversion[j];
 
           log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | ev);
           y_pred[j, k, l] = bernoulli_logit_rng(ev);
@@ -122,4 +134,5 @@ generated quantities {
     }
   }
 }
+
 

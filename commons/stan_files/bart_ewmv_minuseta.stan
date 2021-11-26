@@ -78,7 +78,6 @@ model {
       real delta_u;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-        u_gain = l; 
         u_loss = (l - 1);
 
         u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +
@@ -95,6 +94,9 @@ model {
       n_succ += pumps[j, k] - explosion[j, k];
       n_pump += pumps[j, k];
 
+      if (n_pump>0){
+        p_burst = phi[j] + (1 - exp(-n_pump)) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+      }
     }
   }
 }
@@ -137,7 +139,6 @@ generated quantities {
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
           // u_gain always equals r ^ rho.
-          u_gain = l; 
           u_loss = (l - 1);
 
           u_pump = (1 - p_burst) * u_gain - lambda[j] * p_burst * u_loss +
@@ -154,6 +155,9 @@ generated quantities {
         n_succ += pumps[j, k] - explosion[j, k];
         n_pump += pumps[j, k];
 
+        if (n_pump>0){
+          p_burst = phi[j] + (1 - exp(-n_pump)) * ((0.0 + n_pump - n_succ) / n_pump - phi[j]);
+        }
       }
     }
   }
