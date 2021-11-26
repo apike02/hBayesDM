@@ -1,0 +1,31 @@
+task_name:
+  code: bart
+  desc: Balloon Analogue Risk Task
+  cite:
+model_name:
+  code: prospect_riskaversion_lossaversion
+  desc: Simple model with risk aversion and multiplicative loss aversion
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Alex Pike
+  email: alex.pike@ucl.ac.uk
+  link: https://apike02.github.io/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  pumps: The number of pumps.
+  explosion: '0: intact, 1: burst'
+parameters:
+  risk_aversion:
+    desc: subtracted from overall expected value
+    info: [-Inf, 0, Inf]
+  loss_aversion:
+    desc: multiplied by loss value
+    info: [-Inf, 0, Inf]
+regressors:
+postpreds:
+- y_pred
+- ev (expected value on each pump)
+additional_args:

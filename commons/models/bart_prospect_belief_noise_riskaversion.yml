@@ -1,0 +1,34 @@
+task_name:
+  code: bart
+  desc: Balloon Analogue Risk Task
+  cite:
+model_name:
+  code: prospect_belief_noise_riskaversion
+  desc: Simple model with a prior belief and decision noise and risk aversion
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Alex Pike
+  email: alex.pike@ucl.ac.uk
+  link: https://apike02.github.io/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  pumps: The number of pumps.
+  explosion: '0: intact, 1: burst'
+parameters:
+  pumps_prior_belief:
+    desc: prior belief of burst
+    info: [0, 10, Inf]
+  inverse_temperature:
+    desc: governs decision noise, ranging from 0 (stochastic) to infinite (deterministic)
+    info: [0, 3, Inf]
+  risk_aversion:
+    desc: subtracted from overall expected value
+    info: [-Inf, 0, Inf]
+regressors:
+postpreds:
+- y_pred
+- ev (expected value on each pump)
+additional_args:
