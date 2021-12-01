@@ -101,8 +101,7 @@ generated quantities {
   // Actual group-level mean
   real<lower=0> mu_pumps_prior_belief = (mu_pr[1])^2;
   real<lower=0> mu_learning_rate = Phi_approx(mu_pr[2]);
-  real<lower=0> mu_inverse_temperature = (mu_pr[3])^2;
-  real mu_risk_aversion = (mu_pr[4]);
+  real mu_risk_aversion = (mu_pr[3]);
 
   // Log-likelihood for model fit
   real log_lik[N];
