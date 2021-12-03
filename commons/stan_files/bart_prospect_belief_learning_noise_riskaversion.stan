@@ -144,7 +144,7 @@ generated quantities {
 
           ev = (1 - p_burst) * u_gain - p_burst * u_loss - risk_aversion[j];
 
-          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | ev);
+          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | ev * inverse_temperature[j]);
           y_pred[j, k, l] = bernoulli_logit_rng(ev * inverse_temperature[j]);
           actual_pumps=l;
         }
