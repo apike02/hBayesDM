@@ -31,7 +31,7 @@ parameters {
 transformed parameters {
   vector<lower=0, upper=1>[N] xi;
   vector<lower=0, upper=1>[N] win_ep;
-  vecotr<lower=0, upper=1>[N] loss_ep;
+  vector<lower=0, upper=1>[N] loss_ep;
   vector[N] b;
   vector[N] app;
   vector[N] av;

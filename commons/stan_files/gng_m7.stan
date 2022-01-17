@@ -30,7 +30,7 @@ parameters {
 transformed parameters {
   vector<lower=0, upper=1>[N] xi;
   vector<lower=0, upper=1>[N] win_ep;
-  vecotr<lower=0, upper=1>[N] loss_ep;
+  vector<lower=0, upper=1>[N] loss_ep;
   vector[N] b;
   vector[N] pi;
   vector<lower=0>[N] rhoRew;
@@ -48,7 +48,7 @@ transformed parameters {
 }
 
 model {
-// gng_m7: RW(rew/pun) + noise + bias + pavlovian + 2lr 
+// gng_m7: RW(rew/pun) + noise + bias + pavlovian + 2lr
   // hyper parameters
   mu_pr[1]  ~ normal(0, 1.0);
   mu_pr[2]  ~ normal(0, 1.0);
