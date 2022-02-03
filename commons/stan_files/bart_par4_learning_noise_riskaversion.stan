@@ -34,7 +34,7 @@ parameters {
   vector[N] eta_pr;
   vector[N] gam_pr;
   vector[N] tau_pr;
-  
+
   // Single common prior belief for all participants
   real phi_pr;
 }
@@ -44,12 +44,12 @@ transformed parameters {
   vector<lower=0>[N] eta;
   vector<lower=0>[N] gam;
   vector<lower=0>[N] tau;
-  real[N] phi;
+  real phi;
 
   eta = exp(mu_pr[1] + sigma[1] * eta_pr);
   gam = exp(mu_pr[2] + sigma[2] * gam_pr);
   tau = exp(mu_pr[3] + sigma[3] * tau_pr);
-  
+
   phi = Phi_approx(phi_pr);
 }
 
@@ -61,7 +61,7 @@ model {
   eta_pr ~ normal(0, 1);
   gam_pr ~ normal(0, 1);
   tau_pr ~ normal(0, 1);
-  
+
   //normal prior on phi before transform
   phi_pr ~ normal(0, 1);
 
