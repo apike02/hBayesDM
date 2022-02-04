@@ -33,7 +33,7 @@ parameters {
   // Normally distributed error for Matt trick
   vector[N] gam_pr;
   vector[N] tau_pr;
-  
+
   // Single common prior belief for all participants
   real phi_pr;
 }
@@ -42,11 +42,11 @@ transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] gam;
   vector<lower=0>[N] tau;
-  real[N] phi;
+  real phi;
 
   gam = exp(mu_pr[1] + sigma[1] * gam_pr);
   tau = exp(mu_pr[2] + sigma[2] * tau_pr);
-  
+
   phi = Phi_approx(phi_pr);
 }
 
@@ -57,7 +57,7 @@ model {
 
   gam_pr ~ normal(0, 1);
   tau_pr ~ normal(0, 1);
-  
+
   //normal prior on phi before transform
   phi_pr ~ normal(0, 1);
 
