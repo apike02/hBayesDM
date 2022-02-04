@@ -4,7 +4,7 @@ task_name:
   cite:
 model_name:
   code: par4_learning
-  desc: Re-parameterized version of BART model with 1 param: learning rate (and a fixed effect of prior belief)
+  desc: Re-parameterized version of BART model with only a learning rate (and a fixed effect of prior belief)
   cite:
   - 'van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model
     decomposition of the BART: Assessment and application. Journal of Mathematical
