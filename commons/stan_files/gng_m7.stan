@@ -96,13 +96,13 @@ model {
 
       // after receiving feedback, update sv[t + 1]
       // after receiving feedback, update sv[t + 1]
-      if (cue[i, t] == 1 | cue[i, t] == 3){
+      if ((cue[i, t] == 1 )||( cue[i, t] == 3)){
         if (outcome[i, t] > 0) {
           sv[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
         } else if (outcome[i, t] ==0){
           sv[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
         }
-      } else if (cue[i, t] == 2 | cue [i, t] == 4){
+      } else if ((cue[i, t] == 2 )|| (cue [i, t] == 4)){
         if (outcome[i, t] == 0) {
           sv[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
         } else if (outcome[i, t] < 0){
@@ -112,13 +112,13 @@ model {
 
       // update action values
       if (pressed[i, t]) { // update go value
-        if (cue[i, t] ==1 | cue [i, t] == 3) {
+        if ((cue[i, t] ==1 )||( cue [i, t] == 3)) {
           if (outcome [i, t] > 0){
             qv_g[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
           } else if (outcome [i, t] == 0){
             qv_g[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
           }
-        } else if (cue[i, t] == 2 | cue [i, t] == 4){
+        } else if ((cue[i, t] == 2 )|| (cue [i, t] == 4)){
           if (outcome [i, t] == 0){
             qv_g[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
           } else if (outcome [i, t] < 0){
@@ -126,13 +126,13 @@ model {
           }
         }
       } else { // update no-go value
-        if (cue[i, t] ==1 | cue [i, t] == 3) {
+        if ((cue[i, t] ==1 )||( cue [i, t] == 3)) {
           if (outcome [i, t] > 0){
             qv_ng[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
           } else if (outcome [i, t] == 0){
             qv_ng[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
           }
-        } else if (cue[i, t] == 2 | cue [i, t] == 4){
+        } else if ((cue[i, t] == 2 )||( cue [i, t] == 4)){
           if (outcome [i, t] == 0){
             qv_ng[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
           } else if (outcome [i, t] < 0){
@@ -215,13 +215,13 @@ generated quantities {
         SV[i, t]    = sv[cue[i, t]];
 
         // after receiving feedback, update sv[t + 1]
-        if (cue[i, t] == 1 | cue[i, t] == 3){
+        if ((cue[i, t] == 1 )|| (cue[i, t] == 3)){
           if (outcome[i, t] > 0) {
             sv[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
           } else if (outcome[i, t] ==0){
             sv[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
           }
-        } else if (cue[i, t] == 2 | cue [i, t] == 4){
+        } else if ((cue[i, t] == 2 )||( cue [i, t] == 4)){
           if (outcome[i, t] == 0) {
             sv[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
           } else if (outcome[i, t] < 0){
@@ -231,13 +231,13 @@ generated quantities {
   
         // update action values
         if (pressed[i, t]) { // update go value
-          if (cue[i, t] ==1 | cue [i, t] == 3) {
+          if ((cue[i, t] ==1 )||( cue [i, t] == 3)) {
             if (outcome [i, t] > 0){
               qv_g[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
             } else if (outcome [i, t] == 0){
               qv_g[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - qv_g[cue[i, t]]);
             }
-          } else if (cue[i, t] == 2 | cue [i, t] == 4){
+          } else if ((cue[i, t] == 2) || (cue [i, t] == 4)){
             if (outcome [i, t] == 0){
               qv_g[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_g[cue[i, t]]);
             } else if (outcome [i, t] < 0){
@@ -245,13 +245,13 @@ generated quantities {
             }
           }
         } else { // update no-go value
-          if (cue[i, t] ==1 | cue [i, t] == 3) {
+          if ((cue[i, t] ==1 )|| (cue [i, t] == 3)) {
             if (outcome [i, t] > 0){
               qv_ng[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
             } else if (outcome [i, t] == 0){
               qv_ng[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - qv_ng[cue[i, t]]);
             }
-          } else if (cue[i, t] == 2 | cue [i, t] == 4){
+          } else if ((cue[i, t] == 2 )|| (cue [i, t] == 4)){
             if (outcome [i, t] == 0){
               qv_ng[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - qv_ng[cue[i, t]]);
             } else if (outcome [i, t] < 0){
