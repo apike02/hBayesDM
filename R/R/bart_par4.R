@@ -3,7 +3,7 @@
 #' @templateVar TASK_NAME Balloon Analogue Risk Task
 #' @templateVar TASK_CODE bart
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Re-parameterized version of BART model with 4 params
+#' @templateVar MODEL_NAME Re-parameterized version of BART model with 4 parameters
 #' @templateVar MODEL_CODE par4
 #' @templateVar MODEL_CITE (van Ravenzwaaij et al., 2011)
 #' @templateVar MODEL_TYPE Hierarchical

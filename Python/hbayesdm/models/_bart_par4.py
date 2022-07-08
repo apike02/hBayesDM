@@ -62,10 +62,10 @@ def bart_par4(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Balloon Analogue Risk Task - Re-parameterized version of BART model with 4 params
+    """Balloon Analogue Risk Task - Re-parameterized version of BART model with 4 parameters
 
     Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task 
-    using Re-parameterized version of BART model with 4 params [van_Ravenzwaaij2011]_ with the following parameters:
+    using Re-parameterized version of BART model with 4 parameters [van_Ravenzwaaij2011]_ with the following parameters:
     "phi" (prior belief of balloon not bursting), "eta" (updating rate), "gam" (risk-taking parameter), "tau" (inverse temperature).
 
     

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bart_par4.R
 \name{bart_par4}
 \alias{bart_par4}
-\title{Re-parameterized version of BART model with 4 params}
+\title{Re-parameterized version of BART model with 4 parameters}
 \usage{
 bart_par4(
   data = NULL,
@@ -85,12 +85,12 @@ A class "hBayesDM" object \code{modelData} with the following components:
 }
 }
 \description{
-Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task using Re-parameterized version of BART model with 4 params.
+Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task using Re-parameterized version of BART model with 4 parameters.
 It has the following parameters: \code{phi} (prior belief of balloon not bursting), \code{eta} (updating rate), \code{gam} (risk-taking parameter), \code{tau} (inverse temperature).
 
 \itemize{
   \item \strong{Task}: Balloon Analogue Risk Task 
-  \item \strong{Model}: Re-parameterized version of BART model with 4 params (van Ravenzwaaij et al., 2011)
+  \item \strong{Model}: Re-parameterized version of BART model with 4 parameters (van Ravenzwaaij et al., 2011)
 }
 }
 \details{
