@@ -28,11 +28,11 @@ transformed data{
 parameters {
   // Group-level parameters
   real mu_pr;
-  real<lower=0> sigma;
+  realr<lower=0> sigma;
 
   // Normally distributed error for Matt trick
   vector[N] tau_pr;
-
+  
   // Single common prior belief for all participants
   real phi_pr;
 }
@@ -40,10 +40,10 @@ parameters {
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] tau;
-  real phi;
+  real[N] phi;
 
   tau = exp(mu_pr + sigma * tau_pr);
-
+  
   phi = Phi_approx(phi_pr);
 }
 
@@ -53,7 +53,7 @@ model {
   sigma ~ normal(0, 0.2);
 
   tau_pr ~ normal(0, 1);
-
+  
   //normal prior on phi before transform
   phi_pr ~ normal(0, 1);
 

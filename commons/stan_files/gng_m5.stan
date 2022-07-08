@@ -226,4 +226,3 @@ generated quantities {
     } // end of i loop
   } // end of local section
 }
-

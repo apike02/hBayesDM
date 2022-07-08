@@ -40,7 +40,7 @@ parameters {
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] gam;
-  real phi;
+  real[N] phi;
 
   gam = exp(mu_pr + sigma * gam_pr);
 
@@ -112,7 +112,7 @@ generated quantities {
         omega = -gam[j] / log1m(p_burst);
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | (omega - l));
+          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | (omega - l);
           y_pred[j, k, l] = bernoulli_logit_rng(omega - l);
         }
 

@@ -1,0 +1,52 @@
+task_name:
+  code: bart
+  desc: Balloon Analogue Risk Task
+  cite:
+model_name:
+  code: withintrial_3par
+  desc: BART model where the number of pumps is updated within trials, no learning
+  cite:
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Harhim Park
+  email: hrpark12@gmail.com
+  link: https://ccs-lab.github.io/team/harhim-park/
+- name: Jaeyeong Yang
+  email: jaeyeong.yang1125@gmail.com
+  link: https://ccs-lab.github.io/team/jaeyeong-yang/
+- name: Ayoung Lee
+  email: aylee2008@naver.com
+  link: https://ccs-lab.github.io/team/ayoung-lee/
+- name: Jeongbin Oh
+  email: ows0104@gmail.com
+  link: https://ccs-lab.github.io/team/jeongbin-oh/
+- name: Jiyoon Lee
+  email: nicole.lee2001@gmail.com
+  link: https://ccs-lab.github.io/team/jiyoon-lee/
+- name: Junha Jang
+  email: andy627robo@naver.com
+  link: https://ccs-lab.github.io/team/junha-jang/
+- name: Alex Pike
+  email: alex.pike02@gmail.com
+  link: https://apike02.github.io/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  pumps: The number of pumps.
+  explosion: '0: intact, 1: burst'
+parameters:
+  target_pumps:
+    desc: prior expectation for how many pumps result in explosion
+    info: [0, 1, Inf]
+  risk_taking:
+    desc: risk taking parameter - scales tendency to press more within-trial
+    info: [0, 0.5, 1]
+  noise:
+    desc: inverse temperature
+    info: [0, 1, Inf]
+regressors:
+postpreds:
+- y_pred
+additional_args:

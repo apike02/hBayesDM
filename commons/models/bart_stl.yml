@@ -1,0 +1,56 @@
+task_name:
+  code: bart
+  desc: Balloon Analogue Risk Task
+  cite:
+model_name:
+  code: stl
+  desc: BART model from https://doi.org/10.1016/j.cogpsych.2021.101407
+  cite:
+  - 'Zhou, R., Myung, J. I., & Pitt, M.A. (2021). The scaled target learning model: Revisiting learning in the balloon analogue risk task. Cognitive Psychology, 128, 101407.'
+model_type:
+  code:
+  desc: Hierarchical
+notes:
+contributors:
+- name: Harhim Park
+  email: hrpark12@gmail.com
+  link: https://ccs-lab.github.io/team/harhim-park/
+- name: Jaeyeong Yang
+  email: jaeyeong.yang1125@gmail.com
+  link: https://ccs-lab.github.io/team/jaeyeong-yang/
+- name: Ayoung Lee
+  email: aylee2008@naver.com
+  link: https://ccs-lab.github.io/team/ayoung-lee/
+- name: Jeongbin Oh
+  email: ows0104@gmail.com
+  link: https://ccs-lab.github.io/team/jeongbin-oh/
+- name: Jiyoon Lee
+  email: nicole.lee2001@gmail.com
+  link: https://ccs-lab.github.io/team/jiyoon-lee/
+- name: Junha Jang
+  email: andy627robo@naver.com
+  link: https://ccs-lab.github.io/team/junha-jang/
+- name: Alex Pike
+  email: alex.pike02@gmail.com
+  link: https://apike02.github.io/
+data_columns:
+  subjID: A unique identifier for each subject in the data-set.
+  pumps: The number of pumps.
+  explosion: '0: intact, 1: burst'
+parameters:
+  target_pumps:
+    desc: prior expectation for how many pumps result in explosion
+    info: [0, 1, Inf]
+  rewsens:
+    desc: reward sensitivity
+    info: [0, 0.5, 1]
+  punsens:
+    desc: punishment sensitivity
+    info: [0, 0.5, 1]
+  noise:
+    desc: inverse temperature
+    info: [0, 1, Inf]
+regressors:
+postpreds:
+- y_pred
+additional_args:

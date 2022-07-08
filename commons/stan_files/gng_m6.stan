@@ -112,7 +112,7 @@ model {
         } else if (outcome[i, t] ==0) {
           sv[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
         }
-      } else if ((cue[i, t] == 2)||(cute[i,t]==4)){
+      } else if ((cue[i, t] == 2)||(cue[i,t]==4)){
         if (outcome[i, t] == 0) {
           sv[cue[i, t]] += win_ep[i] * (rhoRew[i] * outcome[i, t] - sv[cue[i, t]]);
         } else if (outcome[i, t] < 0){
@@ -246,7 +246,7 @@ generated quantities {
             sv[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
           }
         }
-  
+
         // update action values
         if (pressed[i, t]) { // update go value
           if ((cue[i, t] ==1 )|| (cue [i, t] == 3)) {
@@ -281,4 +281,3 @@ generated quantities {
     } // end of i loop
   } // end of local section
 }
-

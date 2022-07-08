@@ -228,7 +228,7 @@ generated quantities {
             sv[cue[i, t]] += loss_ep[i] * (rhoPun[i] * outcome[i, t] - sv[cue[i, t]]);
           }
         }
-  
+
         // update action values
         if (pressed[i, t]) { // update go value
           if ((cue[i, t] ==1 )||( cue [i, t] == 3)) {
@@ -263,4 +263,3 @@ generated quantities {
     } // end of i loop
   } // end of local section
 }
-
