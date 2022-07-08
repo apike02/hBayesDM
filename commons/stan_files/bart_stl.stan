@@ -51,6 +51,8 @@ transformed parameters {
 }
 
 model {
+  int pump_max = P;
+
   // Prior
   mu_pr  ~ normal(0, 1);
   sigma  ~ normal(0, 0.2);
@@ -59,8 +61,6 @@ model {
   rewsens_pr ~ normal(0, 1);
   punsens_pr ~ normal(0, 1);
   noise_pr ~ normal(0, 1);
-
-  int pump_max = P;
 
   // Likelihood
   for (j in 1:N) {
