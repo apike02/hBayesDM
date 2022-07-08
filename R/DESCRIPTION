@@ -75,7 +75,6 @@ Collate:
     'bart_ewmv_minusrho.R'
     'bart_ewmv_minustau.R'
     'bart_par4.R'
-<<<<<<< HEAD
     'bart_par4_belief.R'
     'bart_par4_belief_learning.R'
     'bart_par4_belief_learning_noise.R'
@@ -91,8 +90,6 @@ Collate:
     'bart_par4_noise_riskaversion.R'
     'bart_par4_riskaversion.R'
     'bart_par4_withintrial.R'
-=======
->>>>>>> parent of 30ae808 (creation of par4 variants)
     'bart_prospect_belief.R'
     'bart_prospect_belief_learning.R'
     'bart_prospect_belief_learning_lossaversion.R'
