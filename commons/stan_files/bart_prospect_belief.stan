@@ -51,6 +51,8 @@ model {
 
   // Likelihood
   for (j in 1:N) {
+    real pump_belief = pumps_prior_belief[j];
+
 
     for (k in 1:Tsubj[j]) {
       real u_gain;
@@ -95,6 +97,7 @@ generated quantities {
 
   { // Local section to save time and space
     for (j in 1:N) {
+      real pump_belief = pumps_prior_belief[j];
 
       log_lik[j] = 0;
 
