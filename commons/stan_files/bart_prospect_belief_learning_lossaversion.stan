@@ -75,9 +75,11 @@ model {
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
         if (l>pump_belief){
+          pump_belief=pump_belief+learning_rate[j]*(l - pump_belief);
+        }
+        p_burst = 1/(pump_belief+1-l);
+        if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
           p_burst=1;
-        } else {
-          p_burst = 1/(pump_belief+1-l);
         }
         u_gain = l;
         u_loss = (l-1) * loss_aversion[j];
@@ -90,7 +92,7 @@ model {
         actual_pumps=l;
       }
 
-       if (explosion[j,k]==1||actual_pumps>pump_belief){ //only learn if there was an explosion, or you pumped more than
+       if (explosion[j,k]==1){ //only learn if there was an explosion, or you pumped more than
         pump_belief = pump_belief + learning_rate[j] * (actual_pumps - pump_belief);
       }
     }
@@ -99,9 +101,9 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_pumps_prior_belief = (mu_pr[1])^2;
+  real<lower=0> mu_pumps_prior_belief = exp(mu_pr[1]);
   real<lower=0> mu_learning_rate = Phi_approx(mu_pr[2]);
-  real mu_loss_aversion = (mu_pr[3]);
+  real<lower=0> mu_loss_aversion = exp(mu_pr[3]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -130,9 +132,11 @@ generated quantities {
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
           if (l>pump_belief){
+            pump_belief=pump_belief+learning_rate[j]*(l - pump_belief);
+          }
+          p_burst = 1/(pump_belief+1-l);
+          if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
             p_burst=1;
-          } else {
-            p_burst = 1/(pump_belief+1-l);
           }
           u_gain = l;
           u_loss = (l - 1)*loss_aversion[j];
@@ -144,7 +148,7 @@ generated quantities {
           actual_pumps=l;
         }
 
-        if (explosion[j,k]==1||actual_pumps>pump_belief){ //only learn if there was an explosion, or you pumped more than
+        if (explosion[j,k]==1){ //only learn if there was an explosion, or you pumped more than
           pump_belief = pump_belief + learning_rate[j] * (actual_pumps - pump_belief);
         }
       }

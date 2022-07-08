@@ -40,10 +40,10 @@ parameters {
 
 transformed parameters {
   // Subject-level parameters with Matt trick
-  vector[N] loss_aversion;
+  vector<lower=0>[N] loss_aversion;
 
   for (i in 1:N){
-      loss_aversion[i]=(mu_pr + sigma * loss_aversion_pr[i]);
+      loss_aversion[i]=exp(mu_pr + sigma * loss_aversion_pr[i]);
   }
 }
 
@@ -66,10 +66,9 @@ model {
       real actual_pumps;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-        if (l>pump_belief){
+        p_burst = 1/(pump_belief+1-l);
+        if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
           p_burst=1;
-        } else {
-          p_burst = 1/(pump_belief+1-l);
         }
         u_gain = l;
         u_loss = (l-1) * loss_aversion[j];
@@ -87,7 +86,7 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real mu_loss_aversion = (mu_pr);
+  real<lower=0> mu_loss_aversion = exp(mu_pr);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -115,10 +114,9 @@ generated quantities {
         real actual_pumps;
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          if (l>pump_belief){
+          p_burst = 1/(pump_belief+1-l);
+          if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
             p_burst=1;
-          } else {
-            p_burst = 1/(pump_belief+1-l);
           }
           u_gain = l;
           u_loss = (l - 1)*loss_aversion[j];

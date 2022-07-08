@@ -42,7 +42,7 @@ parameters {
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] pumps_prior_belief;
-  vector<lower=0,upper=5>[N] risk_aversion;
+  vector<lower=0>[N] risk_aversion;
 
   for (i in 1:N){
       pumps_prior_belief[i]=exp(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i]);

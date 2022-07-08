@@ -45,8 +45,8 @@ transformed parameters {
   vector<lower=0>[N] inverse_temperature;
 
   for (i in 1:N){
-      pumps_prior_belief[i]=(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i])^2;
-      inverse_temperature[i]=(mu_pr[2] + sigma[2] * inverse_temperature_pr[i])^2;
+      pumps_prior_belief[i]=exp(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i]);
+      inverse_temperature[i]=exp(mu_pr[2] + sigma[2] * inverse_temperature_pr[i]);
   }
 }
 
@@ -70,10 +70,9 @@ model {
       real actual_pumps;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-        if (l>pump_belief){
+        p_burst = 1/(pump_belief+1-l);
+        if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
           p_burst=1;
-        } else {
-          p_burst = 1/(pump_belief+1-l);
         }
         u_gain = l;
         u_loss = l-1;
@@ -91,8 +90,8 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_pumps_prior_belief = (mu_pr[1])^2;
-  real<lower=0> mu_inverse_temperature = (mu_pr[2])^2;
+  real<lower=0> mu_pumps_prior_belief = exp(mu_pr[1]);
+  real<lower=0> mu_inverse_temperature = exp(mu_pr[2]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -120,10 +119,9 @@ generated quantities {
         real actual_pumps;
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          if (l>pump_belief){
+          p_burst = 1/(pump_belief+1-l);
+          if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
             p_burst=1;
-          } else {
-            p_burst = 1/(pump_belief+1-l);
           }
           u_gain = l;
           u_loss = (l - 1);

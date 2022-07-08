@@ -45,14 +45,14 @@ transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] pumps_prior_belief;
   vector<lower=0>[N] inverse_temperature;
-  vector[N] risk_aversion;
-  vector[N] loss_aversion;
+  vector<lower=0>[N] risk_aversion;
+  vector<lower=0>[N] loss_aversion;
 
   for (i in 1:N){
-      pumps_prior_belief[i]=(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i])^2;
-      inverse_temperature[i]=(mu_pr[2] + sigma[2] * inverse_temperature_pr[i])^2;
-      risk_aversion[i]=(mu_pr[3] + sigma[3] * risk_aversion_pr[i]);
-      loss_aversion[i]=(mu_pr[4] + sigma[4] * loss_aversion_pr[i]);
+      pumps_prior_belief[i]=exp(mu_pr[1] + sigma[1]* pumps_prior_belief_pr[i]);
+      inverse_temperature[i]=exp(mu_pr[2] + sigma[2] * inverse_temperature_pr[i]);
+      risk_aversion[i]=exp(mu_pr[3] + sigma[3] * risk_aversion_pr[i]);
+      loss_aversion[i]=exp(mu_pr[4] + sigma[4] * loss_aversion_pr[i]);
   }
 }
 
@@ -78,15 +78,14 @@ model {
       real actual_pumps;
 
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-        if (l>pump_belief){
+        p_burst = 1/(pump_belief+1-l);
+        if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
           p_burst=1;
-        } else {
-          p_burst = 1/(pump_belief+1-l);
         }
         u_gain = l;
         u_loss = (l-1) * loss_aversion[j];
 
-        ev = (1 - p_burst) * u_gain - p_burst * u_loss - p_burst * risk_aversion[j];
+        ev = (1 - p_burst) * u_gain - p_burst * u_loss - pow((p_burst*(1-p_burst)),risk_aversion[j]);
         //basic expected value computation
 
         // Calculate likelihood with bernoulli distribution
@@ -99,10 +98,10 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_pumps_prior_belief = (mu_pr[1])^2;
-  real<lower=0> mu_inverse_temperature = (mu_pr[2])^2;
-  real mu_risk_aversion = (mu_pr[3]);
-  real mu_loss_aversion = (mu_pr[4]);
+  real<lower=0> mu_pumps_prior_belief = exp(mu_pr[1]);
+  real<lower=0> mu_inverse_temperature = exp(mu_pr[2]);
+  real<lower=0> mu_risk_aversion = exp(mu_pr[3]);
+  real<lower=0> mu_loss_aversion = exp(mu_pr[4]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -130,15 +129,14 @@ generated quantities {
         real actual_pumps;
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          if (l>pump_belief){
+          p_burst = 1/(pump_belief+1-l);
+          if ((p_burst<0)||(p_burst>1)){ //essentially detects if pump_belief is >l+1
             p_burst=1;
-          } else {
-            p_burst = 1/(pump_belief+1-l);
           }
           u_gain = l;
           u_loss = (l - 1)*loss_aversion[j];
 
-          ev = (1 - p_burst) * u_gain - p_burst * u_loss - p_burst * risk_aversion[j];
+          ev = (1 - p_burst) * u_gain - p_burst * u_loss - pow((p_burst*(1-p_burst)),risk_aversion[j]);
 
           log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | ev * inverse_temperature[j]);
           y_pred[j, k, l] = bernoulli_logit_rng(ev * inverse_temperature[j]);

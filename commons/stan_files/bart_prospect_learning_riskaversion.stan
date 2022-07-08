@@ -89,7 +89,7 @@ model {
         actual_pumps=l;
       }
 
-       if (explosion[j,k]==1||actual_pumps>pump_belief){ //only learn if there was an explosion, or you pumped more than
+       if (explosion[j,k]==1){ //only learn if there was an explosion, or you pumped more than
         pump_belief = pump_belief + learning_rate[j] * (actual_pumps - pump_belief);
       }
     }
