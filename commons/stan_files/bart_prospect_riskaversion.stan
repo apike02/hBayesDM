@@ -101,7 +101,7 @@ generated quantities {
 
   { // Local section to save time and space
     for (j in 1:N) {
-      real pump_belief = 1;
+      real pump_belief = 10;
 
       log_lik[j] = 0;
 
