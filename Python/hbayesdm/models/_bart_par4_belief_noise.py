@@ -7,14 +7,14 @@ import pandas as pd
 from hbayesdm.base import TaskModel
 from hbayesdm.preprocess_funcs import bart_preprocess_func
 
-__all__ = ['bart_par4']
+__all__ = ['bart_par4_belief_noise']
 
 
-class BartPar4(TaskModel):
+class BartPar4BeliefNoise(TaskModel):
     def __init__(self, **kwargs):
         super().__init__(
             task_name='bart',
-            model_name='par4',
+            model_name='par4_belief_noise',
             model_type='',
             data_columns=(
                 'subjID',
@@ -23,8 +23,6 @@ class BartPar4(TaskModel):
             ),
             parameters=OrderedDict([
                 ('phi', (0, 0.5, 1)),
-                ('eta', (0, 1, Inf)),
-                ('gam', (0, 1, Inf)),
                 ('tau', (0, 1, Inf)),
             ]),
             regressors=OrderedDict([
@@ -33,8 +31,6 @@ class BartPar4(TaskModel):
             postpreds=['y_pred'],
             parameters_desc=OrderedDict([
                 ('phi', 'prior belief of balloon not bursting'),
-                ('eta', 'updating rate'),
-                ('gam', 'risk-taking parameter'),
                 ('tau', 'inverse temperature'),
             ]),
             additional_args_desc=OrderedDict([
@@ -46,7 +42,7 @@ class BartPar4(TaskModel):
     _preprocess_func = bart_preprocess_func
 
 
-def bart_par4(
+def bart_par4_belief_noise(
         data: Union[pd.DataFrame, str, None] = None,
         niter: int = 4000,
         nwarmup: int = 1000,
@@ -62,11 +58,11 @@ def bart_par4(
         stepsize: float = 1,
         max_treedepth: int = 10,
         **additional_args: Any) -> TaskModel:
-    """Balloon Analogue Risk Task - Re-parameterized version of BART model with 4 params
+    """Balloon Analogue Risk Task - Re-parameterized version of BART model with 2 params - prior belief and noise
 
     Hierarchical Bayesian Modeling of the Balloon Analogue Risk Task 
-    using Re-parameterized version of BART model with 4 params [van_Ravenzwaaij2011]_ with the following parameters:
-    "phi" (prior belief of balloon not bursting), "eta" (updating rate), "gam" (risk-taking parameter), "tau" (inverse temperature).
+    using Re-parameterized version of BART model with 2 params - prior belief and noise [van_Ravenzwaaij2011]_ with the following parameters:
+    "phi" (prior belief of balloon not bursting), "tau" (inverse temperature).
 
     
 
@@ -79,6 +75,7 @@ def bart_par4(
     .. codeauthor:: Jeongbin Oh <ows0104@gmail.com>
     .. codeauthor:: Jiyoon Lee <nicole.lee2001@gmail.com>
     .. codeauthor:: Junha Jang <andy627robo@naver.com>
+    .. codeauthor:: Alex Pike <alex.pike02@gmail.com>
 
     User data should contain the behavioral data-set of all subjects of interest for
     the current analysis. When loading from a file, the datafile should be a
@@ -192,7 +189,7 @@ def bart_par4(
     model_data
         An ``hbayesdm.TaskModel`` instance with the following components:
 
-        - ``model``: String value that is the name of the model ('bart_par4').
+        - ``model``: String value that is the name of the model ('bart_par4_belief_noise').
         - ``all_ind_pars``: Pandas DataFrame containing the summarized parameter values
           (as specified by ``ind_pars``) for each subject.
         - ``par_vals``: OrderedDict holding the posterior samples over different parameters.
@@ -207,10 +204,10 @@ def bart_par4(
     .. code:: python
 
         from hbayesdm import rhat, print_fit
-        from hbayesdm.models import bart_par4
+        from hbayesdm.models import bart_par4_belief_noise
 
         # Run the model and store results in "output"
-        output = bart_par4(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
+        output = bart_par4_belief_noise(data='example', niter=2000, nwarmup=1000, nchain=4, ncore=4)
 
         # Visually check convergence of the sampling chains (should look like "hairy caterpillars")
         output.plot(type='trace')
@@ -224,7 +221,7 @@ def bart_par4(
         # Show the LOOIC and WAIC model fit estimates
         print_fit(output)
     """
-    return BartPar4(
+    return BartPar4BeliefNoise(
         data=data,
         niter=niter,
         nwarmup=nwarmup,

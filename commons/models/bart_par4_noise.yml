@@ -3,8 +3,8 @@ task_name:
   desc: Balloon Analogue Risk Task
   cite:
 model_name:
-  code: par4
-  desc: Re-parameterized version of BART model with 4 params
+  code: par4_noise
+  desc: Re-parameterized version of BART model with inverse temperature only
   cite:
   - 'van Ravenzwaaij, D., Dutilh, G., & Wagenmakers, E. J. (2011). Cognitive model
     decomposition of the BART: Assessment and application. Journal of Mathematical
@@ -32,20 +32,14 @@ contributors:
 - name: Junha Jang
   email: andy627robo@naver.com
   link: https://ccs-lab.github.io/team/junha-jang/
+- name: Alex Pike
+  email: alex.pike02@gmail.com
+  link: https://apike02.github.io/
 data_columns:
   subjID: A unique identifier for each subject in the data-set.
   pumps: The number of pumps.
   explosion: '0: intact, 1: burst'
 parameters:
-  phi:
-    desc: prior belief of balloon not bursting
-    info: [0, 0.5, 1]
-  eta:
-    desc: updating rate
-    info: [0, 1, Inf]
-  gam:
-    desc: risk-taking parameter
-    info: [0, 1, Inf]
   tau:
     desc: inverse temperature
     info: [0, 1, Inf]

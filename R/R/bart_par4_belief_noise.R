@@ -1,14 +1,14 @@
-#' @templateVar MODEL_FUNCTION bart_par4
-#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@@gmail.com}>, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee} <\email{aylee2008@@naver.com}>, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh} <\email{ows0104@@gmail.com}>, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee} <\email{nicole.lee2001@@gmail.com}>, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang} <\email{andy627robo@@naver.com}>
+#' @templateVar MODEL_FUNCTION bart_par4_belief_noise
+#' @templateVar CONTRIBUTOR \href{https://ccs-lab.github.io/team/harhim-park/}{Harhim Park} <\email{hrpark12@@gmail.com}>, \href{https://ccs-lab.github.io/team/jaeyeong-yang/}{Jaeyeong Yang} <\email{jaeyeong.yang1125@@gmail.com}>, \href{https://ccs-lab.github.io/team/ayoung-lee/}{Ayoung Lee} <\email{aylee2008@@naver.com}>, \href{https://ccs-lab.github.io/team/jeongbin-oh/}{Jeongbin Oh} <\email{ows0104@@gmail.com}>, \href{https://ccs-lab.github.io/team/jiyoon-lee/}{Jiyoon Lee} <\email{nicole.lee2001@@gmail.com}>, \href{https://ccs-lab.github.io/team/junha-jang/}{Junha Jang} <\email{andy627robo@@naver.com}>, \href{https://apike02.github.io/}{Alex Pike} <\email{alex.pike02@@gmail.com}>
 #' @templateVar TASK_NAME Balloon Analogue Risk Task
 #' @templateVar TASK_CODE bart
 #' @templateVar TASK_CITE 
-#' @templateVar MODEL_NAME Re-parameterized version of BART model with 4 params
-#' @templateVar MODEL_CODE par4
+#' @templateVar MODEL_NAME Re-parameterized version of BART model with 2 params - prior belief and noise
+#' @templateVar MODEL_CODE par4_belief_noise
 #' @templateVar MODEL_CITE (van Ravenzwaaij et al., 2011)
 #' @templateVar MODEL_TYPE Hierarchical
 #' @templateVar DATA_COLUMNS "subjID", "pumps", "explosion"
-#' @templateVar PARAMETERS \code{phi} (prior belief of balloon not bursting), \code{eta} (updating rate), \code{gam} (risk-taking parameter), \code{tau} (inverse temperature)
+#' @templateVar PARAMETERS \code{phi} (prior belief of balloon not bursting), \code{tau} (inverse temperature)
 #' @templateVar REGRESSORS 
 #' @templateVar POSTPREDS "y_pred"
 #' @templateVar LENGTH_DATA_COLUMNS 3
@@ -28,15 +28,13 @@
 #'
 
 
-bart_par4 <- hBayesDM_model(
+bart_par4_belief_noise <- hBayesDM_model(
   task_name       = "bart",
-  model_name      = "par4",
+  model_name      = "par4_belief_noise",
   model_type      = "",
   data_columns    = c("subjID", "pumps", "explosion"),
   parameters      = list(
     "phi" = c(0, 0.5, 1),
-    "eta" = c(0, 1, Inf),
-    "gam" = c(0, 1, Inf),
     "tau" = c(0, 1, Inf)
   ),
   regressors      = NULL,

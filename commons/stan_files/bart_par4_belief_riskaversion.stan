@@ -27,24 +27,21 @@ transformed data{
 
 parameters {
   // Group-level parameters
-  real mu_pr;
-  real<lower=0> sigma;
+  vector[2] mu_pr;
+  vector<lower=0>[2] sigma;
 
   // Normally distributed error for Matt trick
-  vector[N] eta_pr;
-
-  // Single common prior belief for all participants
-  real phi_pr;
+  vector[N] phi_pr;
+  vector[N] gam_pr;
 }
 
 transformed parameters {
   // Subject-level parameters with Matt trick
-  vector<lower=0>[N] eta;
-  real[N] phi;
-  
-  eta = exp(mu_pr + sigma * eta_pr);
+  vector<lower=0,upper=1>[N] phi;
+  vector<lower=0>[N] gam;
 
-  phi = Phi_approx(phi_pr);
+  phi = Phi_approx(mu_pr[1] + sigma[1] * phi_pr);
+  gam = exp(mu_pr[2] + sigma[2] * gam_pr);
 }
 
 model {
@@ -52,10 +49,8 @@ model {
   mu_pr  ~ normal(0, 1);
   sigma ~ normal(0, 0.2);
 
-  eta_pr ~ normal(0, 1);
-
-  //normal prior on phi before transform
   phi_pr ~ normal(0, 1);
+  gam_pr ~ normal(0, 1);
 
   // Likelihood
   for (j in 1:N) {
@@ -67,8 +62,8 @@ model {
       real p_burst;  // Belief on a balloon to be burst
       real omega;    // Optimal number of pumps
 
-      p_burst = 1 - ((phi + eta[j] * n_succ) / (1 + eta[j] * n_pump));
-      omega = -1 / log1m(p_burst);
+      p_burst = 1 - ((phi[j] + 0 * n_succ) / (1 + 0 * n_pump));
+      omega = -gam[j] / log1m(p_burst);
 
       // Calculate likelihood with bernoulli distribution
       for (l in 1:(pumps[j, k] + 1 - explosion[j, k]))
@@ -83,7 +78,8 @@ model {
 
 generated quantities {
   // Actual group-level mean
-  real<lower=0> mu_eta = exp(mu_pr);
+  real<lower=0, upper=1> mu_phi = Phi_approx(mu_pr[1]);
+  real<lower=0> mu_gam = exp(mu_pr[2]);
 
   // Log-likelihood for model fit
   real log_lik[N];
@@ -108,11 +104,11 @@ generated quantities {
         real p_burst;  // Belief on a balloon to be burst
         real omega;    // Optimal number of pumps
 
-        p_burst = 1 - ((phi + eta[j] * n_succ) / (1 + eta[j] * n_pump));
-        omega = -1 / log1m(p_burst);
+        p_burst = 1 - ((phi[j] + 0 * n_succ) / (1 + 0 * n_pump));
+        omega = -gam[j] / log1m(p_burst);
 
         for (l in 1:(pumps[j, k] + 1 - explosion[j, k])) {
-          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | (omega - l);
+          log_lik[j] += bernoulli_logit_lpmf(d[j, k, l] | omega - l);
           y_pred[j, k, l] = bernoulli_logit_rng(omega - l);
         }
 
