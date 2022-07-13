@@ -28,7 +28,7 @@ transformed data{
 parameters {
   // Group-level parameters
   real mu_pr;
-  realr<lower=0> sigma;
+  real<lower=0> sigma;
 
   // Normally distributed error for Matt trick
   vector[N] tau_pr;
@@ -40,7 +40,7 @@ parameters {
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] tau;
-  real[N] phi;
+  real phi;
 
   tau = exp(mu_pr + sigma * tau_pr);
   

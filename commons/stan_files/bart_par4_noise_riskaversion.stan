@@ -42,7 +42,7 @@ transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0>[N] gam;
   vector<lower=0>[N] tau;
-  real[N] phi;
+  real phi;
 
   gam = exp(mu_pr[1] + sigma[1] * gam_pr);
   tau = exp(mu_pr[2] + sigma[2] * tau_pr);
