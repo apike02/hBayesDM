@@ -38,7 +38,6 @@ parameters {
 transformed parameters {
   // Subject-level parameters with Matt trick
   vector<lower=0,upper=1>[N] phi;
-  vector<lower=0>[N] eta;
   vector<lower=0>[N] tau;
 
   phi = Phi_approx(mu_pr[1] + sigma[1] * phi_pr);
